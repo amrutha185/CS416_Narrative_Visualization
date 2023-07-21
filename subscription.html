@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Subscription Analysis
+        </title>
+        <link rel="stylesheet" href="main.css">
+        <script type="text/javascript" src="https://d3js.org/d3.v7.min.js"></script>      
+    </head>
+    <body style=" margin-top: 0; " background-color="000000">
+        <header style="margin-bottom: 2%;">
+
+          <a href = "index.html" id="logo">
+            <img src = "spotify logo.png" alt = "Spotify Logo" width="50" height="50"/>
+            <h1>Spotify User Behavior Analysis</h1>
+          </a>
+          <nav>
+            <ul>
+              <li><a href="index.html" class="selected">Home</a></li>
+              <li><a href="subscription.html">Subscription</a></li>
+              <li><a href="deviceUsage.html">Device Usage</a></li>
+              <li><a href="interests.html">User Interests</a></li>
+            </ul>
+          </nav>
+        </header>
+        <div> 
+          <svg id="piechart" width="500" height="500"></svg>
+          <svg id="subbarchart" width="500" height="500"></svg>
+          <script src="SubscriptionPage.js"></script>
+        </div>
+        <div>
+          <h3>Click on the pie chart to filter the corresponding bars and view detailed data.</h3>
+        </div>
+       <!--  <div>
+          
+          <script src="subscriptionbarchart.js"></script>
+        </div> -->
+
+              
+
+    </body>
+
+</html>
