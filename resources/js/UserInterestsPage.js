@@ -92,7 +92,7 @@ var musicdiv = d3.select("body").append("div")
     .duration(200)
     .style("opacity", 1);
 
-    musicdiv.html(counts.music+" users use Spotify to listen music")
+    musicdiv.html("Total of "+counts.music+" users use Spotify to listen music")
     .style("left", (event.pageX)+20 + "px")
     .style("top", (event.pageY - 50) + "px");
   }
@@ -271,7 +271,7 @@ var showpodcastTooltip = function(event,d) {
 .duration(200)
 .style("opacity", 1);
 
-podcastdiv.html(counts.podcast+" users use Spotify to listen podcasts")
+podcastdiv.html("Total of "+counts.podcast+" users use Spotify to listen podcasts")
 .style("left", (event.pageX)+20 + "px")
 .style("top", (event.pageY - 50) + "px");
 }
