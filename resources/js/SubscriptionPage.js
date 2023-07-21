@@ -8,7 +8,7 @@ var height = 500; // Height of the SVG element
 margin = { top: 20, right: 20, bottom: 60, left: 80 };
 
 // Load the CSV data
-d3.csv("/dataset/Spotify_data.csv").then(function(data) {
+d3.csv("resources/dataset/Spotify_data.csv").then(function(data) {
 
   var counts = {
     free: 0,

@@ -7,7 +7,7 @@ var counts = {
 
 
  // Load the CSV data
-d3.csv("/dataset/Spotify_data.csv").then(function(data) {
+d3.csv("resources/dataset/Spotify_data.csv").then(function(data) {
 
      //Split the listening devices columns- this will split original data into multiple rows.
     var listeningDevices = data.map(function(d) {
@@ -133,7 +133,7 @@ yAxisGroup= svg.append('g').call(d3.axisLeft(y))
 
 // Add x-axis label
 svg.append("g")
-.attr("transform", "translate(300,650)")
+.attr("transform", "translate(210,600)")
 .append("text")
   .attr("class", "x label")
   .attr("text-anchor", "end")
@@ -403,7 +403,7 @@ var agediv = d3.select("body").append("div")
     agediv.transition()
     .duration(200)
     .style("opacity", 1);
-    agediv.html("Majority of users among age group 20-35 uses Spotify on all electronic devices")
+    agediv.html("6-12 age group users are also using Spotify but not on Smartphones")
     .style("left", (event.pageX)+20 + "px")
     .style("top", (event.pageY - 50) + "px");
   }

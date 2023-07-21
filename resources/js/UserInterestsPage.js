@@ -3,7 +3,7 @@ var height = 500; // Height of the SVG element
 margin = { top: 20, right: 20, bottom: 100, left: 40 };
 
  // Load the CSV data
-d3.csv("/dataset/Spotify_data.csv").then(function(data) {
+d3.csv("resources/dataset/Spotify_data.csv").then(function(data) {
 
 var counts = {
     music: 0,
@@ -255,6 +255,41 @@ svg
     svg.append('g').call(d3.axisLeft(y))
     .selectAll("text")
     .attr("fill", "white");
+
+
+    //Add tooltips to the chart
+
+var podcastdiv = d3.select("body").append("div")   
+.attr("class", "tooltip")               
+.style("opacity", 0);
+
+
+// A function that change this tooltip when the user hover a bar.
+
+var showpodcastTooltip = function(event,d) {
+  podcastdiv.transition()
+.duration(200)
+.style("opacity", 1);
+
+podcastdiv.html(counts.podcast+" users use Spotify to listen podcasts")
+.style("left", (event.pageX)+20 + "px")
+.style("top", (event.pageY - 50) + "px");
+}
+var movepodcastTooltip = function(event,d) {
+//console.log("moveTooltip is triggered");
+podcastdiv
+.style("left", (event.PageX+20) + "px")
+.style("top", (event.pageY - 50) + "px")
+} 
+// A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
+var hidepodcastTooltip = function(d) {
+//console.log("hideTooltip is triggered");
+podcastdiv
+  .transition()
+  .duration(100)
+  .style("opacity", 0)
+}
+
     
     // Create the bars
     svg
@@ -268,6 +303,13 @@ svg
     .attr('y', function(d) { return y(d.count); })
     .attr('height', function(d) { return height - y(d.count); })
     .attr("fill","#1ed760")
+
+    d3.select("#podcastbarchart")
+.on("mouseover", function(event,d) {
+  showpodcastTooltip(event,d)
+  })
+.on("mousemove", movepodcastTooltip )
+.on("mouseleave", hidepodcastTooltip )
 
     
 
@@ -352,47 +394,7 @@ const makepodcastAnnotations = d3.annotation()
 d3.select("#podcastbarchart")
   .append("g")
   .call(makepodcastAnnotations)
-
-  d3.select("#podcastbarchart")
-    .on("mouseover", function(event,d) {
-      showpodcastTooltip(event,d)
-      })
-    .on("mousemove", movepodcastTooltip )
-    .on("mouseleave", hidepodcastTooltip )
-
-//Add tooltips to the chart
-
-var podcastdiv = d3.select("body").append("div")   
-    .attr("class", "tooltip")               
-    .style("opacity", 0);
-    
-
-  // A function that change this tooltip when the user hover a bar.
  
-  var showpodcastTooltip = function(event,d) {
-    podcastdiv.transition()
-    .duration(200)
-    .style("opacity", 1);
-
-    podcastdiv.html(counts.podcast+" users use Spotify to listen podcasts")
-    .style("left", (event.pageX)+20 + "px")
-    .style("top", (event.pageY - 50) + "px");
-  }
-  var movepodcastTooltip = function(event,d) {
-    //console.log("moveTooltip is triggered");
-    podcastdiv
-    .style("left", (event.PageX+20) + "px")
-    .style("top", (event.pageY - 50) + "px")
-  } 
-  // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
-  var hidepodcastTooltip = function(d) {
-    //console.log("hideTooltip is triggered");
-    podcastdiv
-      .transition()
-      .duration(100)
-      .style("opacity", 0)
-  }
-  
 
 }).catch(function(error) {
     // Handle error if any
