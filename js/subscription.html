@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Spotify User Insights Hub
+    </title>
+    <!-- <style type="text/css" src="main.css"></style> -->
+    <link rel="stylesheet" href="/css/main.css">
+    <script type="text/javascript" src="https://d3js.org/d3.v7.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+</head>
+<body style=" margin-top: 0; " background-color="000000">
+    <header style="margin-bottom: 2%;">
+
+      <a href = "index.html" id="logo">
+        <img src = "/img/spotify logo.png" alt = "Spotify Logo" width="50" height="50"/>
+        <h1><span style="color:#1ed760">Spotify</span> User Insights Hub</h1>
+      </a>
+      <div class="nav">            
+        <a href="index.html">Home</a>
+        <a href="subscription.html">Subscription</a>
+        <a href="deviceUsage.html">Device Usage</a>
+        <a href="interests.html">User Interests</a>
+      
+    </div>
+    </header> 
+    <p>
+      <h4 style ="color:#fff">Click on the pie chart to filter the corresponding bars and view detailed data.</h3>
+    </p>  
+    <div> 
+      <svg id="piechart" class= "chart" width="500" height="500" style="margin-right: 200px;"></svg>
+      <svg id="subbarchart" class= "chart" width="500" height="500"></svg>
+      <script src="SubscriptionPage.js" ></script>
+    </div>
+    <div style = "color: #fff; font-size:17px; font-family: Roboto, 'Helvetica Neue', sans-serif;" >
+      <p>The pie chart indicates that the majority of Spotify users fall into the free (ad-supported) subscription category, compared to the Premium (paid subscription) category. From charts it is evident that within both subscription types, the largest user base is found within the age group of 20-35. To improve these numbers, Spotify could focus on enhancing its Premium subscription area, offering exclusive features. Additionally, it looks like 20-35 age group are the target users. So offering attractive marketing strategies within that age group can attract more users within that demographic to both subscription options.
+       </p>   
+          
+    </div> 
+
+              
+
+    </body>
+
+</html>

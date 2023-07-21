@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Spotify User Insights Hub
+    </title>
+    <!-- <style type="text/css" src="main.css"></style> -->
+    <link rel="stylesheet" href="/css/main.css">
+    <script type="text/javascript" src="https://d3js.org/d3.v7.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+</head>
+<body style=" margin-top: 0; " background-color="000000">
+    <header style="margin-bottom: 2%;">
+
+      <a href = "index.html" id="logo">
+        <img src = "/img/spotify logo.png" alt = "Spotify Logo" width="50" height="50"/>
+        <h1><span style="color:#1ed760">Spotify</span> User Insights Hub</h1>
+      </a>
+      <div class="nav">            
+        <a href="index.html">Home</a>
+        <a href="subscription.html">Subscription</a>
+        <a href="deviceUsage.html">Device Usage</a>
+        <a href="interests.html">User Interests</a>
+      
+    </div>
+    </header> 
+    <p>
+      <h4 style ="color:#fff">Click on the Device Usage chart to filter the corresponding bars and view detailed data about how many users from each age group</h3>
+    </p>  
+    <div> 
+      <svg id="devicebarchart" class= "chart" style="margin-right: 100px;"></svg>
+      <svg id="agebarchart" class= "chart"></svg>      
+      <script src="deviceUsagePage.js"></script>
+    </div>
+    
+    <div style = "color: #fff; font-size:17px" >
+      <p>It is clearly evident that smartphones are the preferred device, as it is available at your finger tip. Spotify should sync playlists for a consistent and seamless user experience across all electronic devices that a user login including computer or laptop, smart speakers, and smart TVs. 
+        Spotify should leverage the data from age group chart and provide more accurate and personalized recommendations, curated playlists  by understanding the preferences and listening habits of users from different age groups. This may vary by the region as well.
+        To better engage users across different age groups, Spotify could introduce features like collaborative playlists, interactive music quizzes, or exclusive artist content. It can  help keep users actively involved with the app and encourage them to explore new music and features.
+      </p>
+    </div>
+
+
+
+              
+
+    </body>
+
+</html>

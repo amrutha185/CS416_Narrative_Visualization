@@ -1,0 +1,105 @@
+/* main.css */
+html *{
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2%;
+    color: #fff; /* Set header text color to white */
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+  #logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  #logo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  #logo h1 {
+    margin: 0;
+
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  
+  nav ul li {
+    margin-right: 10px;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  nav ul li a.selected {
+    font-weight: bold;
+  }
+
+
+  .nav {
+    overflow: hidden;
+    background-color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .nav a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  .nav a:hover, .dropdown:hover .dropbtn {
+    background-color: #1ed760;
+  }
+
+  
+  /* Body */
+  body {
+    margin-top: 0;
+    background-color: #000000;
+  }
+
+  path.domain {
+    stroke: white;
+  }
+
+  .chart{
+    font-size:  14px;
+    font-family: Roboto, 'Helvetica Neue', sans-serif
+  }
+
+  .tooltip {   
+    position: absolute;         
+    text-align: center;         
+    width: 300px;                    
+    height: 35px;                   
+    padding: 2px;               
+    font: 7px ;      
+    background: white; 
+    border: 0px;        
+    border-radius: 8px;         
+    pointer-events: none;           
+}
