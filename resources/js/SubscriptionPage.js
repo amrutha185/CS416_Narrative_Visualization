@@ -15,11 +15,11 @@ d3.csv("resources/dataset/Spotify_data.csv").then(function(data) {
     paid: 0
   };
 
-    // Calculate counts by age group and subscription
+    // Calculate counts by usage period and subscription
     const rollupcounts = d3.rollup(
         data,
         (v) => v.length,
-        (d) => d.Age,
+        (d) => d.spotify_usage_period,
         (d) => d.spotify_subscription_plan
       );
 
@@ -34,8 +34,9 @@ d3.csv("resources/dataset/Spotify_data.csv").then(function(data) {
   // Extract unique subscriptions
   const plans = Array.from(new Set(data.map((d) => d.spotify_subscription_plan)));
 
-  // Create an array of age groups
-  const ageGroups = Array.from(rollupcounts.keys());
+  // Create an array of spotify_usage_period
+  //const period = Array.from(rollupcounts.keys());
+  const usagePeriod = Array.from(rollupcounts.keys());
 
 
   //Begin Creating Pie chart
@@ -62,7 +63,6 @@ d3.csv("resources/dataset/Spotify_data.csv").then(function(data) {
 
   var dataPie = pie(Object.entries(counts));
 
-  //console.log(dataPie[0]);
 
   //Add tooltips to the chart
 
@@ -200,6 +200,17 @@ d3.csv("resources/dataset/Spotify_data.csv").then(function(data) {
 
 //Begin Creating Bar chart
 
+// Filter the data based on the selected plan
+const initialPlanData = usagePeriod.map((period) => {
+  const count = rollupcounts.get(period).get(initialPlan) || 0;
+  const periodArray = {period, count}
+   return (periodArray);
+});
+//const initialPlanData1 = initialPlanData.sort(function(a, b){ return d3.descending(a[1], b[1]); })
+
+initialPlanData.sort((a, b) => b.count - a.count); 
+console.log(initialPlanData);
+
 // Create an SVG element
 const barsvg = d3.select("#subbarchart")
 .attr("width", width)
@@ -207,17 +218,18 @@ const barsvg = d3.select("#subbarchart")
 
 // Define the scales for x and y axes
 const xScale = d3.scaleBand()
-    .domain(ageGroups)
+    .domain(initialPlanData.map(d=>d.period))
     .range([margin.left, width - margin.right])
     .padding(0.1);
 
 const yScale = d3.scaleLinear()
-    .domain([0, d3.max(Array.from(rollupcounts.values()).flatMap((d) => Array.from(d.values())))])
+    .domain([0, d3.max(initialPlanData, d => d.count)])
     .range([height - margin.bottom, margin.top]);
 
 
 // Create x axis
 barsvg.append("g")
+.attr("class","axis")
 .attr("transform", `translate(0,${height - margin.bottom})`)
 .call(d3.axisBottom(xScale))
 .selectAll("text")
@@ -227,6 +239,7 @@ barsvg.append("g")
 
 // Create y axis
 barsvg.append("g")
+.attr("class","axis")
 .attr("transform", `translate(${margin.left},0)`)
 .call(d3.axisLeft(yScale))
 .selectAll("text")
@@ -234,11 +247,11 @@ barsvg.append("g")
 
 // Add x-axis label
 barsvg.append("g")
-.attr("transform", "translate(300,500)")
+.attr("transform", "translate(275,500)")
 .append("text")
   .attr("class", "x label")
   .attr("text-anchor", "end")
-  .text("AgeGroup")
+  .text("Period")
   .attr("fill", "#1ed760")
   .style("font-weight", "bold");
 
@@ -255,11 +268,7 @@ barsvg.append("g")
 .attr("fill", "#1ed760")
 .style("font-weight", "bold");
 
-// Filter the data based on the selected plan
-const initialPlanData = ageGroups.map((ageGroup) => {
-  const count = rollupcounts.get(ageGroup).get(initialPlan) || 0;
-  return ( [ageGroup, count]);
-});
+
 
 // Create bars
 barsvg
@@ -267,10 +276,10 @@ barsvg
     .data(initialPlanData)
     .enter()
     .append("rect")
-    .attr("x", (d) => xScale(d[0]))
-    .attr("y", (d) => yScale(d[1]))
+    .attr("x", (d) => xScale(d.period))
+    .attr("y", (d) => yScale(d.count)) 
     .attr("width", xScale.bandwidth())
-    .attr("height", (d) => height - margin.bottom - yScale(d[1]))
+    .attr("height", (d) => height - margin.bottom - yScale(d.count))
     .attr("fill",  "white");
   
   // Add y-axis grid lines
@@ -296,10 +305,10 @@ barsvg.selectAll('.grid line')
   .enter()
   .append("text")
   .attr("class", "bar-label")
-  .attr("x", (d) => xScale(d[0]) + xScale.bandwidth() / 2)
-  .attr("y", (d) => yScale(d[1]) - 5)
+  .attr("x", (d) => xScale(d.period) + xScale.bandwidth() / 2)
+  .attr("y", (d) => yScale(d.count) - 5)
   .attr("text-anchor", "middle")
-  .text((d) => d[1])
+  .text((d) => d.count)
   .attr("fill", "white");   
 
 //Add annotation to the chart
@@ -307,8 +316,8 @@ barsvg.selectAll('.grid line')
 const ageannotations = [
   {
     note: {
-      label: "is the age group who use Spotify either Paid/Free subscription",
-      title: "20-35"
+      label: "is a popular app for more than 2 years",
+      title: "Spotify"
     },
     connector: {
       end: "none",        // Can be none, or arrow or dot
@@ -316,8 +325,8 @@ const ageannotations = [
       lineType : "vertical"
     },
     color: ["white"],
-    x: 120,
-    y: 400,
+    x: 180,
+    y: 200,
     dy: -100,
     dx: 200
   }
@@ -333,6 +342,12 @@ d3.select("#subbarchart")
 
 // Function to filter the bar chart based on the selected subscription plan
 function filterBarChart(selectedPlan) {
+
+  // Remove the old bars
+  barsvg.selectAll("rect").remove();
+  barsvg.selectAll(".bar-label").remove();
+  barsvg.selectAll(".axis").remove();
+
   if (selectedPlan === 'free') {
     selectedPlan = "Free (ad-supported)";
   } else if (selectedPlan === 'paid') {
@@ -340,14 +355,44 @@ function filterBarChart(selectedPlan) {
   }
 
   // Filter the data based on the selected plan
-  const filteredData = ageGroups.map((ageGroup) => {
-    const count = rollupcounts.get(ageGroup).get(selectedPlan) || 0;
-    return ( [ageGroup, count]);
+  const filteredData = usagePeriod.map((period) => {
+    const count = rollupcounts.get(period).get(selectedPlan) || 0;
+    const periodArray = {period, count}
+    return (periodArray);
   });
+  filteredData.sort((a, b) => b.count - a.count); 
 
-  // Remove the old bars
-  barsvg.selectAll("rect").remove();
-  barsvg.selectAll(".bar-label").remove();
+  console.log(filteredData)
+
+  // Define the scales for x and y axes
+const xScale = d3.scaleBand()
+.domain(filteredData.map(d=>d.period))
+.range([margin.left, width - margin.right])
+.padding(0.1);
+
+const yScale = d3.scaleLinear()
+.domain([0, d3.max(filteredData, d => d.count)])
+.range([height - margin.bottom, margin.top]);
+
+
+// Create x axis
+barsvg.append("g")
+.attr("class","axis")
+.attr("transform", `translate(0,${height - margin.bottom})`)
+.call(d3.axisBottom(xScale))
+.selectAll("text")
+.style("text-anchor", "end")
+.attr("transform", "rotate(-45)")
+.attr("fill","white");
+
+// Create y axis
+barsvg.append("g")
+.attr("class","axis")
+.attr("transform", `translate(${margin.left},0)`)
+.call(d3.axisLeft(yScale))
+.selectAll("text")
+.attr("fill","white");
+
 
  if(selectedPlan == "Free (ad-supported)" ){
   // Create new bars based on the filtered data
@@ -356,10 +401,10 @@ function filterBarChart(selectedPlan) {
     .data(filteredData)
     .enter()
     .append("rect")
-    .attr("x", (d) => xScale(d[0]))
-    .attr("y", (d) => yScale(d[1]))
+    .attr("x", (d) => xScale(d.period))
+    .attr("y", (d) => yScale(d.count))
     .attr("width", xScale.bandwidth())
-    .attr("height", (d) => height - margin.bottom - yScale(d[1]))
+    .attr("height", (d) => height - margin.bottom - yScale(d.count))
     .attr("fill", (d, i) => "#1ed760");
  }
  else {
@@ -369,10 +414,10 @@ function filterBarChart(selectedPlan) {
     .data(filteredData)
     .enter()
     .append("rect")
-    .attr("x", (d) => xScale(d[0]))
-    .attr("y", (d) => yScale(d[1]))
+    .attr("x", (d) => xScale(d.period))
+    .attr("y", (d) => yScale(d.count))
     .attr("width", xScale.bandwidth())
-    .attr("height", (d) => height - margin.bottom - yScale(d[1]))
+    .attr("height", (d) => height - margin.bottom - yScale(d.count))
     .attr("fill", (d, i) => "white");
 
  }
@@ -400,10 +445,10 @@ function filterBarChart(selectedPlan) {
   .enter()
   .append("text")
   .attr("class", "bar-label")
-  .attr("x", (d) => xScale(d[0]) + xScale.bandwidth() / 2)
-  .attr("y", (d) => yScale(d[1]) - 5)
+  .attr("x", (d) => xScale(d.period) + xScale.bandwidth() / 2)
+  .attr("y", (d) => yScale(d.count) - 5)
   .attr("text-anchor", "middle")
-  .text((d) => d[1])
+  .text((d) => d.count)
   .attr("fill", "white");
 }
 }).catch(function(error) {
