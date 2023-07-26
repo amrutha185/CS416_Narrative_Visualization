@@ -115,10 +115,12 @@ d3.csv("resources/dataset/Spotify_data.csv").then(function(data) {
       .transition()
       .duration(200)
       .attr("d",arc)
-      .attr("stroke",none)
+      .attr("stroke","none")
+     // .style("opacity", 0);
     // Hide the tooltip
-    d3.select("#tooltip")
+    d3.select(".tooltip")
         .style("opacity", 0);
+
   }) 
   ; 
 
@@ -305,7 +307,7 @@ barsvg.selectAll('.grid line')
   .enter()
   .append("text")
   .attr("class", "bar-label")
-  .attr("x", (d) => xScale(d.period) + xScale.bandwidth() / 2 - 10)
+  .attr("x", (d) => xScale(d.period) + xScale.bandwidth() / 2 - 5)
   .attr("y", (d) => yScale(d.count) - 5)
   .attr("text-anchor", "middle")
   .text((d) => d.count)
