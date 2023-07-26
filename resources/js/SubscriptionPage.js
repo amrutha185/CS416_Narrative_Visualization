@@ -325,10 +325,10 @@ const ageannotations = [
       lineType : "vertical"
     },
     color: ["white"],
-    x: 180,
+    x: 150,
     y: 200,
-    dy: -100,
-    dx: 200
+    dy: -120,
+    dx: 220
   }
 ]
 
