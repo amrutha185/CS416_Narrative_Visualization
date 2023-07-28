@@ -211,7 +211,7 @@ const initialPlanData = usagePeriod.map((period) => {
 //const initialPlanData1 = initialPlanData.sort(function(a, b){ return d3.descending(a[1], b[1]); })
 
 initialPlanData.sort((a, b) => b.count - a.count); 
-console.log(initialPlanData);
+//console.log(initialPlanData);
 
 // Create an SVG element
 const barsvg = d3.select("#subbarchart")
@@ -349,6 +349,7 @@ function filterBarChart(selectedPlan) {
   barsvg.selectAll("rect").remove();
   barsvg.selectAll(".bar-label").remove();
   barsvg.selectAll(".axis").remove();
+  barsvg.selectAll(".grid").remove();
 
   if (selectedPlan === 'free') {
     selectedPlan = "Free (ad-supported)";
@@ -364,7 +365,8 @@ function filterBarChart(selectedPlan) {
   });
   filteredData.sort((a, b) => b.count - a.count); 
 
-  console.log(filteredData)
+ //
+ // console.log(filteredData)
 
   // Define the scales for x and y axes
 const xScale = d3.scaleBand()
